@@ -26,7 +26,24 @@ async function run() {
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
 
-    const touristSpotCollection = client.db("RoamVista_DB").collection("tourist_spot");
+    const touristSpotCollection = client
+      .db("RoamVista_DB")
+      .collection("tourist_spot");
+
+    app.get("/all-tourist-spot", async (req, res) => {
+      const cursor = await touristSpotCollection.find();
+      const documents = await cursor.toArray();
+      res.send(documents);
+    });
+    app.get("/my-list/:email", async (req, res) => {
+      console.log(req.params);
+      const cursor = await touristSpotCollection.find({
+        user_email: req.params.email,
+      });
+      const documents = await cursor.toArray();
+      res.send(documents);
+    });
+
     app.post("/add-tourist-spot", async (req, res) => {
       const spot = req.body;
       const result = await touristSpotCollection.insertOne(spot);
