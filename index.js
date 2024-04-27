@@ -32,7 +32,7 @@ async function run() {
       .collection("country_info");
 
     app.get("/", (req, res) => {
-      res.send("this is a response");
+      res.send("this is a response from the server");
     });
 
     app.get("/all-tourist-spot", async (req, res) => {
