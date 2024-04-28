@@ -89,7 +89,13 @@ async function run() {
         .toArray();
       res.send(documents);
     });
-    app.get("/ascending_sort", (req, res) => {});
+    app.get("/descending_sort", async(req, res) => {
+       const documents = await touristSpotCollection
+        .find()
+        .sort({ average_cost: -1 })
+        .toArray();
+      res.send(documents);
+    });
   } finally {
     // Ensures that the client will close when you finish/error
   }
