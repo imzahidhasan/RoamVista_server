@@ -41,11 +41,18 @@ async function run() {
       res.send(documents);
     });
 
-    app.get('/country', async(req, res) => {
-       const cursor = await countryCollection.find();
-       const documents = await cursor.toArray();
-       res.send(documents);
-    })
+    app.get("/country", async (req, res) => {
+      const cursor = await countryCollection.find();
+      const documents = await cursor.toArray();
+      res.send(documents);
+    });
+    app.get("/spot-in-the-country/:country_name", async (req, res) => {
+      const cursor = await touristSpotCollection.find({
+        country_name: req.params.country_name,
+      });
+      const documents = await cursor.toArray();
+      res.send(documents);
+    });
     app.get("/my-list/:email", async (req, res) => {
       const cursor = await touristSpotCollection.find({
         user_email: req.params.email,
