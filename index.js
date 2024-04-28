@@ -72,6 +72,30 @@ async function run() {
       });
       res.send(documents);
     });
+    app.put("/update/:id", async (req, res) => {
+      const data = req.body;
+      const document = await touristSpotCollection.updateOne(
+        {
+          _id: new ObjectId(req.params.id),
+        },
+        {
+          $set: {
+            photoURL: data.photoURL,
+            tourist_spot_name: data.tourist_spot_name,
+            country_name: data.country_name,
+            location: data.location,
+            description: data.description,
+            average_cost: data.average_cost,
+            seasonality: data.seasonality,
+            travel_time: data.travel_time,
+            totalVisitorsPerYear: data.totalVisitorsPerYear,
+            user_name: data.user_name,
+            user_email: data.user_email,
+          },
+        }
+      )
+      res.send(document);
+    });
 
     app.get("/details/:id", async (req, res) => {
       const id = req.params.id;
