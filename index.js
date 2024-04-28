@@ -19,7 +19,6 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
@@ -66,6 +65,13 @@ async function run() {
       const result = await touristSpotCollection.insertOne(spot);
       res.send(result);
     });
+    app.get("/update-spot/:id", async (req, res) => {
+      const id = req.params.id;
+      const documents = await touristSpotCollection.findOne({
+        _id: new ObjectId(id),
+      });
+      res.send(documents);
+    });
 
     app.get("/details/:id", async (req, res) => {
       const id = req.params.id;
@@ -89,8 +95,8 @@ async function run() {
         .toArray();
       res.send(documents);
     });
-    app.get("/descending_sort", async(req, res) => {
-       const documents = await touristSpotCollection
+    app.get("/descending_sort", async (req, res) => {
+      const documents = await touristSpotCollection
         .find()
         .sort({ average_cost: -1 })
         .toArray();
