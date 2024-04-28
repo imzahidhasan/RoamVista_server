@@ -66,6 +66,7 @@ async function run() {
       const result = await touristSpotCollection.insertOne(spot);
       res.send(result);
     });
+
     app.get("/details/:id", async (req, res) => {
       const id = req.params.id;
       const documents = await touristSpotCollection.findOne({
@@ -80,6 +81,15 @@ async function run() {
       });
       res.send(result);
     });
+
+    app.get("/ascending_sort", async (req, res) => {
+      const documents = await touristSpotCollection
+        .find()
+        .sort({ average_cost: 1 })
+        .toArray();
+      res.send(documents);
+    });
+    app.get("/ascending_sort", (req, res) => {});
   } finally {
     // Ensures that the client will close when you finish/error
   }
