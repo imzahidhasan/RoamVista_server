@@ -29,6 +29,9 @@ async function run() {
     const countryCollection = client
       .db("RoamVista_DB")
       .collection("country_info");
+    const clientCollection = client
+      .db("RoamVista_DB")
+      .collection("client_review");
 
     app.get("/", (req, res) => {
       res.send("this is a response from the server");
@@ -93,7 +96,7 @@ async function run() {
             user_email: data.user_email,
           },
         }
-      )
+      );
       res.send(document);
     });
 
@@ -111,7 +114,11 @@ async function run() {
       });
       res.send(result);
     });
-
+    app.get("/client_review", async (req, res) => {
+      const cursor = await clientCollection.find();
+      const documents = await cursor.toArray();
+      res.send(documents);
+    });
     app.get("/ascending_sort", async (req, res) => {
       const documents = await touristSpotCollection
         .find()
